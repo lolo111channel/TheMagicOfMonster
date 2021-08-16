@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://Prefabs/Bullet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scripts/Shooting/Shooting.gd" type="Script" id=3]
+
+[node name="Shooting" type="Node2D"]
+position = Vector2( 0.529739, -55.092 )
+script = ExtResource( 3 )
+bullet = ExtResource( 2 )
+
+[node name="point" type="Node2D" parent="."]
+position = Vector2( 45, 0 )
+
+[node name="Sprite" type="Sprite" parent="point"]
+visible = false
+modulate = Color( 1, 0, 0, 1 )
+scale = Vector2( 0.218701, 0.218701 )
+texture = ExtResource( 1 )

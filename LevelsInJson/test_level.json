@@ -1,0 +1,12 @@
+{	
+	"id":0,
+	"pl":{
+		"name":"Testowy Poziom"
+	},
+	"eng":{
+		"name":"Test Level"
+	},
+	
+	"levelPath":"res://Levels/Test_Level.tscn",
+	"image":"res://Graphics/TestGraphics/Test.png"
+}
