@@ -22,6 +22,6 @@ func navigate():
 			path.pop_front()
 
 
-func generate_path():
+func generate_path(position):
 	if (navigation != null):
-		path = navigation.get_simple_path(get_parent().global_position,Global.player.global_position,false)
+		path = navigation.get_simple_path(get_parent().global_position,position,false)

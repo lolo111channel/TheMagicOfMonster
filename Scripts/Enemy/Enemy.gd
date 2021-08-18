@@ -8,6 +8,7 @@ onready var ai:AI = $AI
 onready var shooting:Shooting = $Shooting
 onready var timer:Timer = $Timer
 
+
 var distance: float
 var health:int = 100
 var attack:int
@@ -17,9 +18,15 @@ var isShot:bool = false
 var rng:RandomNumberGenerator = RandomNumberGenerator.new()
 var manager:GameManager
 
+var cooldown:float = 3
+
+var target_position:Vector2 = Vector2()
+
 func _ready():
+	rng.randomize()
+	
 	manager = get_tree().get_nodes_in_group("Manager")[0]
-	level = manager.wave
+	level = rng.randi_range(manager.wave, manager.wave + 2)
 	
 	ai.speed = speed
 	health = level * 100
@@ -27,23 +34,30 @@ func _ready():
 	
 	$Label.text = str(level) + "lvl"
 	$ProgressBar.max_value = health
-
+	
 
 func _process(delta):
 	$ProgressBar.value = health
 	$ProgressBar/Label.text = str(health)
 	
+	cooldown = 3/level
+	
 	death_system()
 
 func _physics_process(delta):
 	if(Global.player):
-		ai.generate_path()
+		ai.generate_path(target_position)
 		ai.navigate()
+	
 	
 	
 	shooting.position_to_look_at = Global.player.global_position
 	distance = global_position.distance_to(Global.player.global_position)
-	if(distance > 30):
+	
+	
+	if(distance >= 30):
+		move()
+	elif(distance < 30):
 		move()
 		
 	
@@ -69,6 +83,8 @@ func death_system():
 			get_parent().add_child(b)
 		manager.everyone_eniemies -= 1
 		Global.player.experience += 20
+		
+		Global.coins += 25
 		queue_free()
 
 
@@ -76,10 +92,11 @@ func death_system():
 func _on_Area2D_body_entered(body):
 	if (body.is_in_group("Bullet")):
 		health -= body.attack
+		Global.coins += 5
 		body.queue_free()
 
 
 func _on_Timer_timeout():
 	isShot = true
-	timer.start(1)
+	timer.start(cooldown)
 

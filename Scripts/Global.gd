@@ -2,7 +2,7 @@ extends Node
 
 var lang:String = "eng"
 var player:Player = null
-
+var coins:int = 0
 
 func list_files_in_directory(path):
 	var files = []

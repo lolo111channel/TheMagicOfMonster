@@ -23,23 +23,32 @@ onready var health_bar:ProgressBar = $Canvas/HealthBar
 onready var mana_bar:ProgressBar = $Canvas/ManaBar
 
 
+var attack_time: float = 0
+var max_attack_time:float = 0.5
+
 
 func _ready():
 	Global.player = self
 
 func _process(delta):
+	attack_time += delta
+	
 	update_UI()
 	
 	health = clamp(health,0,max_health)
 	mana = clamp(mana,0,max_mana)
 	
 	shooting.position_to_look_at = get_global_mouse_position()
-	if(Input.is_action_just_pressed("Shot") and mana >= mana_cost):
+	if(Input.is_action_pressed("Shot") and mana >= mana_cost and attack_time >= max_attack_time):
 		shooting.attack = level * 10
 		shooting.shot()
 		mana -= mana_cost
+		attack_time = 0
 	
 	level_up()
+	
+	if(health <= 0):
+		death_system()
 	
 
 func _physics_process(delta):
@@ -84,7 +93,22 @@ func regeneration_health_mana():
 	health = max_health
 	mana = max_mana
 
+func death_system():
+	$CollisionShape2D.disabled = true
+	$Sprite.texture = null
+	$Canvas/DeathInterface.visible = true
+	
+	get_tree().paused = true
+	
+	pass
+
+
 func _on_Area2D_body_entered(body):
 	if(body.is_in_group("EnemyBullet")):
 		health -= body.attack
 		body.queue_free()
+
+
+func _on_mana_regeneration_timeout():
+	mana += 2
+	$mana_regeneration.start(1)
