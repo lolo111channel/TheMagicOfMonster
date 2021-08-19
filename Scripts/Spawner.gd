@@ -14,7 +14,7 @@ func _ready():
 
 func _physics_process(delta):
 	time += delta
-	if time > 2:
+	if time > 3:
 		spawn_enemies()
 		time = 0
 	pass

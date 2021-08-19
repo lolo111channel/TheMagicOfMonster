@@ -27,4 +27,5 @@ func _process(delta):
 		everyone_eniemies = wave * 10
 		enemies = 0
 		max_enemies = everyone_eniemies
+		Global.coins += 20
 	pass

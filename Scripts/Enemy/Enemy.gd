@@ -32,6 +32,8 @@ func _ready():
 	health = level * 100
 	attack = level * 2
 	
+	shooting.weapon_scatter = 10
+	
 	$Label.text = str(level) + "lvl"
 	$ProgressBar.max_value = health
 	
@@ -46,7 +48,7 @@ func _process(delta):
 
 func _physics_process(delta):
 	if(Global.player):
-		ai.generate_path(target_position)
+		ai.generate_path(Global.player.global_position)
 		ai.navigate()
 	
 	
@@ -56,9 +58,9 @@ func _physics_process(delta):
 	
 	
 	if(distance >= 30):
-		move()
-	elif(distance < 30):
-		move()
+		move(1)
+	elif(distance < 25):
+		move(-1)
 		
 	
 	if(distance < 50 and isShot == true):
@@ -67,8 +69,8 @@ func _physics_process(delta):
 		isShot = false
 
 
-func move():
-	ai.velocity = move_and_slide(ai.velocity)
+func move(x):
+	ai.velocity = move_and_slide(x * ai.velocity)
 
 
 func death_system():
@@ -84,7 +86,7 @@ func death_system():
 		manager.everyone_eniemies -= 1
 		Global.player.experience += 20
 		
-		Global.coins += 25
+		Global.coins += 5
 		queue_free()
 
 
@@ -92,7 +94,7 @@ func death_system():
 func _on_Area2D_body_entered(body):
 	if (body.is_in_group("Bullet")):
 		health -= body.attack
-		Global.coins += 5
+		Global.coins += 1
 		body.queue_free()
 
 
