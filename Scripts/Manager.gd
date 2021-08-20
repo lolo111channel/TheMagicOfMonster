@@ -20,7 +20,6 @@ func _process(delta):
 	
 	$CanvasLayer/Label.text = str(wave) +" wave \n" + str(everyone_eniemies) +" enemies to defeat" 
 	
-	print(Global.coins)
 	
 	if(everyone_eniemies <= 0):
 		wave+=1

@@ -12,6 +12,8 @@ var max_experience:int = 100
 var health:int = 100
 var mana:int = 100
 
+var attack:int = 10
+
 var mana_cost = 2
 
 var velocity:Vector2 = Vector2.ZERO
@@ -29,6 +31,15 @@ var max_attack_time:float = 0.5
 
 func _ready():
 	Global.player = self
+	
+	max_health = 100 * Global.base_health_level 
+	max_mana = 100 * Global.base_mana_level
+	attack = 10 * Global.base_attack_level
+	movement_speed = 100.0 + Global.base_speed_level * 2
+	max_attack_time = Global.attack_speed
+	
+	regeneration_health_mana()
+	
 
 func _process(delta):
 	attack_time += delta
@@ -40,7 +51,7 @@ func _process(delta):
 	
 	shooting.position_to_look_at = get_global_mouse_position()
 	if(Input.is_action_pressed("Shot") and mana >= mana_cost and attack_time >= max_attack_time):
-		shooting.attack = level * 10
+		shooting.attack = attack + level * 10
 		shooting.shot()
 		mana -= mana_cost
 		attack_time = 0

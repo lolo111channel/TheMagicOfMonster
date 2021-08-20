@@ -73,3 +73,13 @@ position = Vector2( 174.973, 127.83 )
 
 [node name="Spawner" parent="." instance=ExtResource( 6 )]
 position = Vector2( 15.5907, 126.062 )
+
+[node name="Spawner2" parent="." instance=ExtResource( 6 )]
+position = Vector2( 57.5931, 39.2256 )
+
+[node name="Spawner3" parent="." instance=ExtResource( 6 )]
+position = Vector2( 94.4042, 201.572 )
+
+[node name="Spawner4" parent="." instance=ExtResource( 6 )]
+position = Vector2( 259.11, 114.736 )
+rotation = -3.08479

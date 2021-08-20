@@ -3,6 +3,8 @@ extends Control
 onready var select_level:Control = get_owner().get_node("Canvas/SelectLevel")
 onready var shop:Control = get_node("/root/MainMenu/Canvas/Shop")
 
+func _process(delta):
+	$Coins/Label.text = str(Global.coins)
 
 func _on_PlayButton_pressed():
 	if(!select_level.visible):
